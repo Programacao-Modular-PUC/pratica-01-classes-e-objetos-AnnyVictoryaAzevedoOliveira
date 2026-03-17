@@ -5,13 +5,11 @@
 package ex2;
 
 import java.util.Calendar;
-import java.util.Date;
 
 /**
  *
  * @author 1616749
  */
-
 
 public class Pessoa {
     private String nome;
@@ -22,22 +20,14 @@ public class Pessoa {
     private double imc;
     private Data datanasc;
 
-    /**
-     *
-     * @param nome
-     * @param sobrenome
-     * @param idade
-     * @param altura
-     * @param peso
-     * @param datanasc
-     */
-    public Pessoa(String nome, String sobrenome, int idade, double altura, double peso, Data datanasc) {
+
+    public Pessoa(String nome, String sobrenome, double altura, double peso, Data datanasc){
         this.nome = nome;
         this.sobrenome = sobrenome;
-        this.idade = idade;
         this.altura = altura;
         this.peso = peso;
         this.datanasc = datanasc;
+        this.idade = calculaIdade();
     }
 
     public double calculaIMC() {
@@ -63,19 +53,28 @@ public class Pessoa {
 
     }
     
-    public int calculaIdade(Data datanasc){
-        java.util.Calendar hoje = java.util.Calendar.getInstance();
-        int anoAtual = hoje.get(java.util.Calendar.YEAR);
-        int mesAtual = hoje.get(java.util.Calendar.MONTH);
-        int diaAtual = hoje.get(java.util.Calendar.DAY_OF_MONTH);
+    public int calculaIdade(){
+        Calendar hoje = Calendar.getInstance();
+        
+        int anoAtual = hoje.get(Calendar.YEAR);
+        int mesAtual = hoje.get(Calendar.MONTH) +1;
+        int diaAtual = hoje.get(Calendar.DAY_OF_MONTH);
         
         int idade = anoAtual - datanasc.getAno();
+       
+        if ((mesAtual < datanasc.getMes()) || (mesAtual == datanasc.getMes() && diaAtual < datanasc.getDia())) {
+            idade --;
+        }
         
       return idade;
     }
 
     public String getNomeCompleto() {
         return getNome() + " " + getSobrenome();
+    }
+    
+    public String getNomeReference(){
+        return sobrenome + "," + nome.toUpperCase();
     }
 
     /**
@@ -161,5 +160,14 @@ public class Pessoa {
     public void setImc(double imc) {
         this.imc = imc;
     }
+    
+    public Data getDatanasc() {
+        return datanasc;
+    }
+    
+    public void setDatanasc(Data datanasc) {
+        this.datanasc = datanasc;
+    }
+    
 }
     
